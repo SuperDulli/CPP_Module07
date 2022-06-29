@@ -2,8 +2,9 @@ CXX		= c++
 CXXFLAGS= -Wall -Wextra -Werror -std=c++98 -Wshadow -pedantic-errors
 
 NAME	= iter
-# CLASSES	= Base.cpp
-HEADERS	= $(patsubst %.cpp,%.hpp,$(CLASSES)) iter.hpp
+# CLASSES	=
+TMPLATES= iter.hpp
+HEADERS	= $(patsubst %.cpp,%.hpp,$(CLASSES)) $(TMPLATES)
 SRCS	= main.cpp $(CLASSES)
 OBJDIR	= obj
 OBJS	= $(patsubst %.cpp,$(OBJDIR)/%.o,$(SRCS))
@@ -41,7 +42,7 @@ test: all
 $(NAME): $(OBJS) $(SRCS) $(HEADERS)
 	$(CXX) $(CXXFLAGS) $(OBJS) -o $@
 
-$(OBJDIR)/%.o: %.cpp | $(OBJDIR)
+$(OBJDIR)/%.o: %.cpp $(TMPLATES) | $(OBJDIR)
 	$(CXX) $(CXXFLAGS) -c $< -o $@
 
 $(OBJDIR):
