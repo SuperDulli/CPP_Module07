@@ -38,6 +38,15 @@ int main(void) {
 
 	try
 	{
+		charArray[-1] = 'x';
+	}
+	catch(std::exception& e)
+	{
+		std::cerr << e.what() << std::endl;
+	}
+
+	try
+	{
 		charArray[5] = 'x';
 	}
 	catch(std::exception& e)
