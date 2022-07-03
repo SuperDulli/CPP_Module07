@@ -3,7 +3,7 @@ CXXFLAGS= -Wall -Wextra -Werror -std=c++98 -Wshadow -pedantic-errors
 
 NAME	= iter
 # CLASSES	=
-TMPLATES= iter.hpp
+TMPLATES= iter.hpp printAddress.hpp
 HEADERS	= $(patsubst %.cpp,%.hpp,$(CLASSES)) $(TMPLATES)
 SRCS	= main.cpp $(CLASSES)
 OBJDIR	= obj
