@@ -9,14 +9,19 @@ SRCS	= main.cpp $(CLASSES)
 OBJDIR	= obj
 OBJS	= $(patsubst %.cpp,$(OBJDIR)/%.o,$(SRCS))
 
-all: $(NAME)
+TEST_INTRA= main_intra
+INTRA_MAIN= main_intra.cpp
+
+all: $(NAME) test_intra
 
 clean:
 	rm -rf $(OBJDIR)
 	rm -rf $(NAME).dSYM
+	rm -f $(INTRA_MAIN)
 
 fclean: clean
 	rm -f $(NAME)
+	rm -f $(TEST_INTRA)
 
 re: fclean
 	make all
@@ -25,19 +30,23 @@ show:
 	@echo HEADERS=$(HEADERS)
 	@echo SRCS=$(SRCS)
 	@echo OBJS=$(OBJS)
+	@echo $(TEST_INTRA) $(INTRA_MAIN)
 
 debug: fclean
 debug: CXXFLAGS := $(CXXFLAGS) -g
 debug: all
 
-leaks: all
+leaks: $(NAME)
 	leaks --atExit -- ./$(NAME)
 
-valgrind: debug
+valgrind: $(NAME)
 	valgrind --leak-check=full --show-leak-kinds=all ./$(NAME)
 
-test: all
+test: $(NAME)
 	./$(NAME)
+
+test_intra: $(TEST_INTRA)
+	./$(TEST_INTRA)
 
 $(NAME): $(OBJS) $(SRCS) $(HEADERS)
 	$(CXX) $(CXXFLAGS) $(OBJS) -o $@
@@ -48,4 +57,10 @@ $(OBJDIR)/%.o: %.cpp $(TMPLATES) | $(OBJDIR)
 $(OBJDIR):
 	mkdir $(OBJDIR)
 
-.PHONY: all clean fclean re show debug leaks test valgrind
+$(TEST_INTRA): $(INTRA_MAIN) $(TMPLATES)
+	$(CXX) $(CXXFLAGS) $< -I. -o $@
+
+$(INTRA_MAIN):
+	curl https://projects.intra.42.fr/uploads/document/document/9237/main.cpp > $@
+
+.PHONY: all clean fclean re show debug leaks test valgrind test_intra
