@@ -9,7 +9,7 @@ SRCS	= main.cpp $(CLASSES)
 OBJDIR	= obj
 OBJS	= $(patsubst %.cpp,$(OBJDIR)/%.o,$(SRCS))
 
-TEST_INTRA= main_intra
+TEST_INTRA= array_intra
 INTRA_MAIN= main_intra.cpp
 
 all: $(NAME) test_intra
@@ -18,6 +18,7 @@ clean:
 	rm -rf $(OBJDIR)
 	rm -rf $(NAME).dSYM
 	rm -f $(INTRA_MAIN)
+	rm -rf $(TEST_INTRA).dSYM
 
 fclean: clean
 	rm -f $(NAME)
@@ -62,5 +63,6 @@ $(TEST_INTRA): $(INTRA_MAIN) $(TMPLATES)
 
 $(INTRA_MAIN):
 	curl https://projects.intra.42.fr/uploads/document/document/9237/main.cpp > $@
+	echo >> $@ #end file with a newline
 
 .PHONY: all clean fclean re show debug leaks test valgrind test_intra
