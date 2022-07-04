@@ -12,7 +12,7 @@ OBJS	= $(patsubst %.cpp,$(OBJDIR)/%.o,$(SRCS))
 TEST_INTRA= array_intra
 INTRA_MAIN= main_intra.cpp
 
-all: $(NAME) test_intra
+all: $(NAME) $(TEST_INTRA)
 
 clean:
 	rm -rf $(OBJDIR)
